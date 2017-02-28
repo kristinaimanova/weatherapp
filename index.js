@@ -7,7 +7,7 @@ var axios = require('axios');
 server.use(express.static(__dirname + '/public'));
 
 server.get('/', function(request, response){
-  response.sendFile('index.html', {root: __dirname + '/public/html'});
+  response.sendFile('index.html', { root: __dirname + '/public/html'});
 });
 
 server.get('/weather/:lat,:lon', function(request, response){
