@@ -2,3 +2,27 @@
 
     font-family: monospace;
 }
+img{
+    width: 100px;
+    height: 100px;
+}
+
+#hourly img {
+    width: 20px;
+    height: 20px;
+}
+
+ul {
+    list-style: none;
+}
+
+.type{
+    width: 350px;
+    height: 500px;
+    border: 2px solid black;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 20px;
+}

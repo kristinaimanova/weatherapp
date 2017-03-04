@@ -8,18 +8,24 @@ var hourlyWidget = new Vue({
     el: '#hourly',
     data: {
             summary: "it's gonna rain!",
-            icon: 'clear-night.png',
+            icon: 'clear-night',
             hours: []
     },
     methods: {
-        getHourlyIcon: function(iconString){},
+        getHourlyIcon: function(iconString){
+            return `/images/${iconString}.svg`;
+        },
         getDate: function(){
-            var d = new Date();
-            var blahblah = d.setUTCSeconds(1488501457);
-            console.log(blahblah);
+            var date = new Date(seconds * 1000);
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
+            return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
         },
         getMainIcon: function(){
-            return `/images/${this.icon}.png`;
+            return `/images/${this.icon}.svg`;
         },
         getHourlyWeather: function(lat, lon){
             var url = `/weather/${lat},${lon}`;
@@ -52,7 +58,7 @@ var currentlyWidget = new Vue({
     latitude: 29.1,
     longitude: -81.4
 },
-methods: {
+    methods: {
         iconUrl: function(iconString){
             return `/images/${iconString}.svg`;
         },
@@ -79,8 +85,37 @@ methods: {
 
         }
 },
-    created: function(){
+        created: function(){
         //
         this.getWeather(29.1,-81.4);
+        }
+});
+var dailyWidget = new Vue({
+    el: '#daily',
+    data:{
+        summary: "rainnnnnnn",
+        icon: "rain",
+        days: []
+    },
+    methods:{
+        iconUrl: function(iconString){
+            return `/images/${iconString}.svg`;
+        },
+        getDailyWeather: function(lat, lon){
+            var url = `/weather/${lat},${lon}`;
+            axios.get(url)
+            .then(function(response){
+                var dailyData = response.data.daily;
+                this.summary = dailyData.summary;
+                this.icon = dailyData.icon;
+                this.hours = dailyData.data;
+            }.bind(this))
+            .catch(function(err){
+                console.log(err);
+            });
+        }
+    },
+    created: function(){
+        this.getDailyWeather(29.1, -84.1);
     }
 });

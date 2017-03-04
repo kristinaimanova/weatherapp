@@ -2,34 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DarkFrost</title>
+  <title>Weather</title>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="css/main.css">
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-
-<div id="hourly">
+    <div id="app">
+      <p>{{ message }}</p>
+      <input type="text" placeholder="latitude" v-model='latitude'>
+      <input type="text" placeholder="longitude" v-model='longitude'>
+      <button v-on:click="updateWeather">Update Weather</button>
+    </div>
+<div id="hourly" class ="type">
     <header>
-        <div class="">
+        <div>
             {{ summary }}
         </div>
         <img :src="getMainIcon()">
-
     </header>
     <main>
         <ul>
-            <li v-for'hour in hours'> <img :src='getHourlyIcon(hour.icon)' alt=""> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ hour.time }}</li>
+            <li v-for='hour in hours'> <img :src='getHourlyIcon(hour.icon)'> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ hour.time }}</li>
         </ul>
     </main>
 </div>
-
-
-  <div id="currently">
+  <div id="currently" class= "type">
     <header>
-       <input type="text" placeholder="latitude" v-model='latitude'>
-       <input type="text" placeholder="longitude" v-model='longitude'>
-       <button v-on:click="updateWeather">Update Weather</button>
+
       <h4>{{ location }}</h4>
     </header>
     <main>
@@ -43,7 +45,7 @@
         </div>
       </div>
       <div>
-        <h3>{{ precipProbability }}</h3>
+        <h3>chance of precipitation {{ precipProbability }}</h3>
         <h3>{{ humidity }}</h3>
       </div>
     </main>
@@ -51,9 +53,21 @@
       <h4>{{ time }}</h4>
     </footer>
   </div>
-  <div id="app">
-    <p>{{ message }}</p>
-  </div>
+<div id="daily" class="type">
+    <header>
+        <div>
+            {{ summary }}
+        </div>
+        <img :src='iconUrl(icon)'>
+    </header>
+    <main>
+        <ul>
+            <li v-for= 'day in days'> - {{ day.summary }} - {{ day.apparentTemperature }} - {{ day.time }}</li>
+        </ul>
+    </main>
+</div>
+
+
   <script src="js/app.js"></script>
 </body>
 </html>
