@@ -1,21 +1,46 @@
+var getDate =function(seconds){
+        var date = new Date(seconds * 1000);
+        var month = date.getMonth();
+        var year = date.getFullYear();
+        var day = date.getDate();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+        seconds = `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
+        console.log('what even is this');
+    };
+
 var app = new Vue({
   el: '#app',
-  data: {
-    message: 'Hello Vue'
-  }
+   data: {
+    latty: 23.1,
+    longy: 25.3
+   },
+methods: {
+    updateWeather: function(latty, longy){
+        app.longy = longy;
+        app.latty = latty;
+        console.log(app.latty);
+        hourlyWidget.getHourlyWeather(latty, longy);
+        currentlyWidget.getWeather(latty, longy);
+        dailyWidget.getDailyWeather(latty, longy);
+    }
+
+}
 });
 var hourlyWidget = new Vue({
     el: '#hourly',
     data: {
             summary: "it's gonna rain!",
             icon: 'clear-night',
-            hours: []
+            hours: [],
+            latitude: 29.1,
+            longitude: -81.4
     },
     methods: {
         getHourlyIcon: function(iconString){
             return `/images/${iconString}.svg`;
         },
-        getDate: function(){
+        getDate: function(seconds){
             var date = new Date(seconds * 1000);
             var month = date.getMonth();
             var year = date.getFullYear();
@@ -42,7 +67,7 @@ var hourlyWidget = new Vue({
         }
     },
     created: function(){
-        this.getHourlyWeather(29.1, -84.1);
+        this.getHourlyWeather(app.latty, app.longy);
     }
 });
 var currentlyWidget = new Vue({
@@ -79,15 +104,20 @@ var currentlyWidget = new Vue({
                 console.log(err);
             });
         },
-        updateWeather: function(latitude, longitude){
-
-            this.getWeather(this.latitude,this.longitude);
-
+        getDate: function(seconds){
+            var date = new Date(seconds * 1000);
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
+            return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
         }
+
 },
         created: function(){
         //
-        this.getWeather(29.1,-81.4);
+        this.getWeather(app.latty,app.longy);
         }
 });
 var dailyWidget = new Vue({
@@ -95,7 +125,10 @@ var dailyWidget = new Vue({
     data:{
         summary: "rainnnnnnn",
         icon: "rain",
-        days: []
+        apparentTemperature: 34,
+        days: [],
+        latty: 29.1,
+        longy: -81.4
     },
     methods:{
         iconUrl: function(iconString){
@@ -107,15 +140,25 @@ var dailyWidget = new Vue({
             .then(function(response){
                 var dailyData = response.data.daily;
                 this.summary = dailyData.summary;
+                this.apparentTemperature = dailyData.apparentTemperature;
                 this.icon = dailyData.icon;
-                this.hours = dailyData.data;
+                this.days = dailyData.data;
             }.bind(this))
             .catch(function(err){
                 console.log(err);
             });
+        },
+        getDate: function(seconds){
+            var date = new Date(seconds * 1000);
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minutes = date.getMinutes();
+            return `${month + 1}/${day}/${year}`;
         }
     },
     created: function(){
-        this.getDailyWeather(29.1, -84.1);
+        this.getDailyWeather(app.latty, app.longy);
     }
 });

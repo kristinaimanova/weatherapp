@@ -7,13 +7,21 @@ img{
     height: 100px;
 }
 
-#hourly img {
+.smImg {
     width: 20px;
     height: 20px;
 }
 
+#app {
+    width: 600px;
+    height: 20px;
+    margin: auto;
+    margin-top: 20px;
+}
+
 ul {
     list-style: none;
+    overflow: hidden;
 }
 
 .type{
@@ -25,4 +33,14 @@ ul {
     text-align: center;
     margin-left: 30px;
     margin-top: 20px;
+    padding: 8px;
+}
+
+.hourtab {
+    width: 200px;
+    height: 220px;
+    border: 1px dotted black;
+    margin: 30px;
+    padding-top: 13px;
+
 }

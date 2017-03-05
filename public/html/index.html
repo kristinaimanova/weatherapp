@@ -11,21 +11,25 @@
 </head>
 <body>
     <div id="app">
-      <p>{{ message }}</p>
-      <input type="text" placeholder="latitude" v-model='latitude'>
-      <input type="text" placeholder="longitude" v-model='longitude'>
-      <button v-on:click="updateWeather">Update Weather</button>
+
+      <input type="text" placeholder="latitude" v-model='latty'>
+      <input type="text" placeholder="longitude" v-model='longy'>
+      <button v-on:click="updateWeather(latty, longy)">Update Weather</button>
     </div>
 <div id="hourly" class ="type">
     <header>
+        <h2>Today</h2>
         <div>
+            <h4>
             {{ summary }}
+        </h4>
         </div>
         <img :src="getMainIcon()">
     </header>
     <main>
+        <input type="range" name="" list="selectHours">
         <ul>
-            <li v-for='hour in hours'> <img :src='getHourlyIcon(hour.icon)'> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ hour.time }}</li>
+            <li id="selectHours" class="hourtab" v-for='hour in hours'> <img class="smImg" :src='getHourlyIcon(hour.icon)'><br>  {{ hour.summary }} <br> {{ hour.apparentTemperature }} <br> {{ getDate(hour.time) }}</li>
         </ul>
     </main>
 </div>
@@ -39,30 +43,29 @@
         <h1>{{ apparentTemperature }}</h1>
       </div>
       <div>
-        <h2>{{ summary }}</h2>
+        <h4>{{ summary }}</h4>
         <div>
           <img :src= "iconUrl(icon)" alt="">
         </div>
       </div>
       <div>
-        <h3>chance of precipitation {{ precipProbability }}</h3>
-        <h3>{{ humidity }}</h3>
+        <h3>chance of precipitation: {{ precipProbability }}</h3>
+        <h3>humidity: {{ humidity }}</h3>
       </div>
     </main>
     <footer>
-      <h4>{{ time }}</h4>
+      <h4>{{ getDate(time) }}</h4>
     </footer>
   </div>
 <div id="daily" class="type">
     <header>
-        <div>
-            {{ summary }}
-        </div>
+        <h2>This Week</h2>
+        <div><h4>{{ summary }}</h4></div>
         <img :src='iconUrl(icon)'>
     </header>
     <main>
         <ul>
-            <li v-for= 'day in days'> - {{ day.summary }} - {{ day.apparentTemperature }} - {{ day.time }}</li>
+            <li class="hourtab" v-for= 'day in days'> {{ day.summary }} <br> <p>Max Temperature: {{ day.apparentTemperatureMax }} </p><p>Min Temperature: {{ day.apparentTemperatureMin }} </p><br> {{ getDate(day.time) }}</li>
         </ul>
     </main>
 </div>
