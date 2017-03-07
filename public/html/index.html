@@ -27,12 +27,6 @@
             <img :src="getMainIcon()">
         </header>
         <main>
-                <!-- <select v-model="selected">
-          <option v-for="poop in options" v-bind:value="poop.value">
-            {{ poop.text }}
-          </option>
-        </select>
-        <span>Selected: {{ selected }}</span> -->
                 <div class="range-slider">
                 <ul>
                     <li id="selectHours" v-if="index == indexValue" class="hourtab" v-for='(hour, index) in hours'> <img class="smImg" :src='getHourlyIcon(hour.icon)'><br>  {{ hour.summary }} <br> {{ hour.apparentTemperature }} <br> {{ getDate(hour.time) }}</li>
@@ -51,7 +45,7 @@
     </header>
     <main>
       <div>
-        <h1>{{ apparentTemperature }}</h1>
+        <h1>{{ apparentTemperature }}&#176; </h1>
       </div>
       <div>
         <h4>{{ summary }}</h4>
@@ -71,14 +65,20 @@
   </div>
 <div id="daily" class="type">
     <header>
-        <h2>This Week</h2>
-        <div><h4>{{ summary }}</h4></div>
+        <h3>This Week</h3>
+        <div><p>{{ summary }}</p></div>
         <img :src='iconUrl(icon)'>
     </header>
     <main>
+
+        <div class="range-slider">
         <ul>
-            <li class="hourtab" v-for= 'day in days'> {{ day.summary }} <br> <p>Max Temperature: {{ day.apparentTemperatureMax }} </p><p>Min Temperature: {{ day.apparentTemperatureMin }} </p><br> {{ getDate(day.time) }}</li>
+            <li class="hourtab" v-if="index == indexValue" v-for= '(day, index) in days'> {{ day.summary }} <br> <p>Max: {{ day.apparentTemperatureMax }}&#176; <br> Min: {{ day.apparentTemperatureMin }}&#176; </p><br> {{ getDate(day.time) }}</li>
         </ul>
+            <span class="range-slider__value">{{ weekday }}</span>
+            <input v-on:input="updateSelection()" v-model="daySelection" class="range-slider__range" id="alldays" data-options="display_selector"type="range" min="0" max="7" value="0"name="time">
+
+        </div>
     </main>
 </div>
 

@@ -25,15 +25,15 @@ ul {
 }
 
 .type{
-    width: 355px;
-    height: 520px;
+    width: 360px;
+    height: 530px;
     border: 2px solid black;
     display: inline-block;
     vertical-align: top;
     text-align: center;
     margin-left: 30px;
     margin-top: 20px;
-    padding: 8px;
+    padding: 16px;
 }
 
 .hourtab {

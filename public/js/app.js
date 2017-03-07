@@ -110,7 +110,7 @@ var currentlyWidget = new Vue({
                 currentlyWidget.apparentTemperature = response.data.currently.apparentTemperature;
                 currentlyWidget.precipProbability = response.data.currently.precipProbability;
                 currentlyWidget.humidity = response.data.currently.humidity;
-                currentlyWidget.location = response.data.currently.location;
+                
                 console.log(response.data);
             })
             .catch(function(err){
@@ -141,7 +141,10 @@ var dailyWidget = new Vue({
         apparentTemperature: 34,
         days: [],
         latty: 29.1,
-        longy: -81.4
+        longy: -81.4,
+        indexValue: 0,
+        weekday: "Monday",
+        daySelection: 0
     },
     methods:{
         iconUrl: function(iconString){
@@ -153,7 +156,6 @@ var dailyWidget = new Vue({
             .then(function(response){
                 var dailyData = response.data.daily;
                 this.summary = dailyData.summary;
-
                 this.icon = dailyData.icon;
                 this.days = dailyData.data;
             }.bind(this))
@@ -165,11 +167,35 @@ var dailyWidget = new Vue({
             var date = new Date(seconds * 1000);
             var month = date.getMonth();
             var year = date.getFullYear();
+            var numberday = date.getDate();
             var day = date.getDay();
-            var hour = date.getHours();
-            var minutes = date.getMinutes();
             console.log(day);
-            return `${day}`;
+            if (day == 0){
+                dailyWidget.weekday = 'Sunday';
+            }
+            else if(day == 1){
+                dailyWidget.weekday = 'Monday';
+            }
+            else if(day == 2){
+                dailyWidget.weekday = 'Tuesday';
+            }
+            else if(day == 3){
+                dailyWidget.weekday = 'Wednesday';
+            }
+            else if(day == 4){
+                dailyWidget.weekday = 'Thursday';
+            }
+            else if(day == 5){
+                dailyWidget.weekday = 'Friday';
+            }
+            else if(day == 6){
+                dailyWidget.weekday = 'Saturday';
+            }
+            return `${dailyWidget.weekday} ${month + 1}/${numberday}/${year}`;
+        },
+        updateSelection: function(){
+            dailyWidget.indexValue = dailyWidget.daySelection;
+            dailyWidget.weekday = dailyWidget.getDate();
         }
     },
     created: function(){
