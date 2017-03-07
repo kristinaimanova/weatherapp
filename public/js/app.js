@@ -1,32 +1,20 @@
-var getDate =function(seconds){
-        var date = new Date(seconds * 1000);
-        var month = date.getMonth();
-        var year = date.getFullYear();
-        var day = date.getDate();
-        var hour = date.getHours();
-        var minutes = date.getMinutes();
-        seconds = `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
-        console.log('what even is this');
-    };
-
 var app = new Vue({
-  el: '#app',
-   data: {
-    latty: 23.1,
-    longy: 25.3
-   },
-methods: {
-    updateWeather: function(latty, longy){
-        app.longy = longy;
-        app.latty = latty;
-        console.log(app.latty);
-        hourlyWidget.getHourlyWeather(latty, longy);
-        currentlyWidget.getWeather(latty, longy);
-        dailyWidget.getDailyWeather(latty, longy);
+      el: '#app',
+       data: {
+        latty: 23.1,
+        longy: 25.3
+       },
+    methods: {
+        updateWeather: function(latty, longy){
+            app.longy = longy;
+            app.latty = latty;
+            hourlyWidget.getHourlyWeather(latty, longy);
+            currentlyWidget.getWeather(latty, longy);
+            dailyWidget.getDailyWeather(latty, longy);
+        }
     }
-
-}
 });
+
 var hourlyWidget = new Vue({
     el: '#hourly',
     data: {
@@ -34,7 +22,16 @@ var hourlyWidget = new Vue({
             icon: 'clear-night',
             hours: [],
             latitude: 29.1,
-            longitude: -81.4
+            longitude: -81.4,
+            hourSelection: 0,
+            indexValue: 0,
+            timeDate: "330",
+            selected: 'A',
+                options: [
+                  { text: 'One', value: 'A' },
+                  { text: 'Two', value: 'B' },
+                  { text: 'Three', value: 'C' }
+                ]
     },
     methods: {
         getHourlyIcon: function(iconString){
@@ -45,9 +42,19 @@ var hourlyWidget = new Vue({
             var month = date.getMonth();
             var year = date.getFullYear();
             var day = date.getDate();
-            var hour = date.getHours();
+            var hh = date.getHours();
+            var dd = "AM";
+            var h = hh;
+            if (h >= 12){
+                h = hh-12;
+                dd = "PM"
+            }
+            if (h == 0){
+                h = 12;
+            }
             var minutes = date.getMinutes();
-            return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
+            hourlyWidget.timeDate = `${month + 1}/${day}/${year} ${h}:${minutes < 9 ? '0' + minutes : minutes} ${dd}`;
+            return hourlyWidget.timeDate;
         },
         getMainIcon: function(){
             return `/images/${this.icon}.svg`;
@@ -64,7 +71,13 @@ var hourlyWidget = new Vue({
             .catch(function(err){
                 console.log(err);
             });
+        },
+        updateSelection: function(){
+            hourlyWidget.indexValue = hourlyWidget.hourSelection;
+            hourlyWidget.timeDate = hourlyWidget.getDate();
+
         }
+
     },
     created: function(){
         this.getHourlyWeather(app.latty, app.longy);
@@ -140,7 +153,7 @@ var dailyWidget = new Vue({
             .then(function(response){
                 var dailyData = response.data.daily;
                 this.summary = dailyData.summary;
-                this.apparentTemperature = dailyData.apparentTemperature;
+
                 this.icon = dailyData.icon;
                 this.days = dailyData.data;
             }.bind(this))
@@ -152,10 +165,11 @@ var dailyWidget = new Vue({
             var date = new Date(seconds * 1000);
             var month = date.getMonth();
             var year = date.getFullYear();
-            var day = date.getDate();
+            var day = date.getDay();
             var hour = date.getHours();
             var minutes = date.getMinutes();
-            return `${month + 1}/${day}/${year}`;
+            console.log(day);
+            return `${day}`;
         }
     },
     created: function(){

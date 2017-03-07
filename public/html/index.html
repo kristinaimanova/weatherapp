@@ -17,21 +17,32 @@
       <button v-on:click="updateWeather(latty, longy)">Update Weather</button>
     </div>
 <div id="hourly" class ="type">
-    <header>
-        <h2>Today</h2>
-        <div>
-            <h4>
-            {{ summary }}
-        </h4>
-        </div>
-        <img :src="getMainIcon()">
-    </header>
-    <main>
-        <input type="range" name="" list="selectHours">
-        <ul>
-            <li id="selectHours" class="hourtab" v-for='hour in hours'> <img class="smImg" :src='getHourlyIcon(hour.icon)'><br>  {{ hour.summary }} <br> {{ hour.apparentTemperature }} <br> {{ getDate(hour.time) }}</li>
-        </ul>
-    </main>
+        <header>
+            <h3>Today</h3>
+            <div>
+                <p>
+                {{ summary }}
+            </p>
+            </div>
+            <img :src="getMainIcon()">
+        </header>
+        <main>
+                <!-- <select v-model="selected">
+          <option v-for="poop in options" v-bind:value="poop.value">
+            {{ poop.text }}
+          </option>
+        </select>
+        <span>Selected: {{ selected }}</span> -->
+                <div class="range-slider">
+                <ul>
+                    <li id="selectHours" v-if="index == indexValue" class="hourtab" v-for='(hour, index) in hours'> <img class="smImg" :src='getHourlyIcon(hour.icon)'><br>  {{ hour.summary }} <br> {{ hour.apparentTemperature }} <br> {{ getDate(hour.time) }}</li>
+                </ul>
+
+                    <label for="allhours">Time:</label>
+                    <input v-on:input="updateSelection()" v-model="hourSelection" class="range-slider__range" id="allhours" data-options="display_selector"type="range" min="0" max="48" value="0"name="time" list="selectHours">
+                    <span class="range-slider__value">{{timeDate}}</span>
+                </div>
+        </main>
 </div>
   <div id="currently" class= "type">
     <header>
@@ -54,6 +65,7 @@
       </div>
     </main>
     <footer>
+        <br>
       <h4>{{ getDate(time) }}</h4>
     </footer>
   </div>

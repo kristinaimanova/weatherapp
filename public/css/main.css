@@ -3,8 +3,8 @@
     font-family: monospace;
 }
 img{
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
 }
 
 .smImg {
@@ -25,8 +25,8 @@ ul {
 }
 
 .type{
-    width: 350px;
-    height: 500px;
+    width: 355px;
+    height: 520px;
     border: 2px solid black;
     display: inline-block;
     vertical-align: top;
@@ -38,9 +38,17 @@ ul {
 
 .hourtab {
     width: 200px;
-    height: 220px;
-    border: 1px dotted black;
+    height: 180px;
+    border: 1px dotted;
+    border-color: inherit;
     margin: 30px;
     padding-top: 13px;
+    background-color: white;
 
+}
+
+.type:hover {
+    border: 2px solid white;
+    background-color: #add8e1;
+    color: #00008b;
 }
