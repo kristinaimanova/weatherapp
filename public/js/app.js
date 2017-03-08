@@ -2,16 +2,34 @@ var app = new Vue({
       el: '#app',
        data: {
         latty: 23.1,
-        longy: 25.3
+        longy: 25.3,
+        addressString: "Gainesville, FL"
        },
     methods: {
         updateWeather: function(latty, longy){
+
             app.longy = longy;
             app.latty = latty;
             hourlyWidget.getHourlyWeather(latty, longy);
             currentlyWidget.getWeather(latty, longy);
             dailyWidget.getDailyWeather(latty, longy);
-        }
+        },
+        updateLocation: function(addressString){
+            app.addressString = addressString;
+            console.log(app.addressString);
+            app.getLocation(addressString);
+        },
+        getLocation: function(addressString){
+            var url = `${addressString}`;
+            axios.get(url)
+            .then(function(response){
+                console.log(response);
+            }.bind(this))
+            .catch(function(err){
+                console.log(err);
+                console.log("AT LEAST IT BROKE");
+            });
+        },
     }
 });
 
@@ -110,7 +128,7 @@ var currentlyWidget = new Vue({
                 currentlyWidget.apparentTemperature = response.data.currently.apparentTemperature;
                 currentlyWidget.precipProbability = response.data.currently.precipProbability;
                 currentlyWidget.humidity = response.data.currently.humidity;
-                
+
                 console.log(response.data);
             })
             .catch(function(err){
