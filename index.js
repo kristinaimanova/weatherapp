@@ -2,7 +2,7 @@ var express = require('express');
 var server = express();
 var port = process.env.PORT || 8080;
 var apiKey = process.env.DARK_API || require('./secrets').darkskyAPIKey;
-var googleGeocodeAPIKey = require('./secrets').googleGeocodeAPIKey;
+// var googleGeocodeAPIKey = require('./secrets').googleGeocodeAPIKey;
 var axios = require('axios');
 
 server.use(express.static(__dirname + '/public'));
